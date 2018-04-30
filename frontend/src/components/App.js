@@ -3,8 +3,17 @@ import '../App.css';
 import { connect } from 'react-redux'
 import Loading from 'react-loading'
 import Modal from 'react-modal'
+import { Link } from 'react-router-dom'
+import { fetchCategories, fetchPostByCategory } from '../actions'
+import PostList from './PostList'
+import CategoryList from './CategoryList'
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.getCategories()
+    this.props.getAllPostsByCategory("ALL")
+  }
 
   state = {
     postModalOpen: false,
@@ -39,6 +48,8 @@ class App extends Component {
 
 
   render() {
+    const { categories, posts } = this.props
+
     return (
       <div className="App">
         <header className="App-header">
@@ -46,11 +57,11 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
 
-        <div>
+        <div className="container">
         {/* Categories */}
-        <div>
-        </div>
+        <CategoryList categories={categories} />
         {/* Post */}
+        <PostList posts={posts}/>
         <div>
         </div>
         </div>
@@ -61,15 +72,20 @@ class App extends Component {
   }
 }
 
-function mapStateToProps () {
-
+function mapStateToProps ({categories, posts}) {
+  console.log(posts)
   return {
+    categories: categories.categories,
+    posts: posts.posts
   }
 }
 
 
 function mapDispatchToProps (dispatch) {
   return {
+    getCategories: () => dispatch(fetchCategories()),
+    getAllPostsByCategory: (data) => dispatch(fetchPostByCategory(data))
+
   }
 }
 
