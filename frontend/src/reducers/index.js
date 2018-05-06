@@ -1,52 +1,44 @@
 import {combineReducers} from 'redux'
 
-function posts(state = { posts: []}, action) {
+function posts(state = {posts:[]}, action) {
   switch (action.type) {
+    case 'GET_POST':
+        return {
+          ...state,
+          post: {...action.post, "comments": action.comments}
+        }
     case 'GET_POSTS':
-      // action.post.comments = action.comments
       return {
-        posts: [...state.posts, action.posts]
+        posts: action.posts
       }
-    case 'ADD_NEW_POST':
+    case 'ADD_POST':
       return {
         ...state,
         posts: [...state.posts, action.post]
       }
 
     case 'DELETE_POST':
-      const currentPost = [...state.posts]
-      const indexToDelete = currentPost.findIndex(post => post.id === action.id)
       return {
-        posts: [...currentPost.slice(0, indexToDelete),
-        ...currentPost.slice(indexToDelete + 1)]
+        posts: [...state.posts.filter(p => p.id != action.id)]
       }
-    case 'EDIT_POST':
-      const currentEditPost = [...state.posts]
-      const indexEdit = currentEditPost.findIndex(post => post.id === action.id)
-      const { title, category, body, author } = action.post
-      const newPostToEdit = Object.assign({}, currentEditPost[indexEdit], {
-        title,
-        category,
-        body,
-        author
-      })
+    case 'UPDATE_POST':
+      let updatedPost = action.post
       return {
-        posts: [...currentEditPost.slice(0, indexEdit),
-        newPostToEdit, ...currentEditPost.slice(indexEdit + 1)]
+        posts: [...state.posts.map(p => {
+          if (p.id == updatedPost.id) {
+            return updatedPost
+          }
+          return p
+        })]
       }
-    case 'UP_VOTE':
-      const currentPostUpVote = [...state.posts]
-      const indexUp= currentPostUpVote.findIndex(post => post.id === action.id)
-      currentPostUpVote[indexUp].voteScore = currentPostUpVote[indexUp].voteScore + 1
+    case 'UPDATE_VOTE_POST':
       return {
-        posts: [...currentPostUpVote]
-      }
-    case 'DOWN_VOTE':
-      const currentPostDownVote = [...state.posts]
-      const indexDown= currentPostDownVote.findIndex(post => post.id === action.id)
-      currentPostDownVote[indexDown].voteScore = currentPostDownVote[indexDown].voteScore - 1
-      return {
-        posts: [...currentPostDownVote]
+        posts: [...state.posts.map(p => {
+          if (p.id == action.postId) {
+            p.voteScore = action.voteScore
+          }
+          return p
+        })]
       }
     case 'GET_POST_CATEGORY':
       return {
@@ -65,7 +57,7 @@ function comments(state = {}, action) {
 }
 
 // For Categories
-const categories = (state = { categories: [] }, action) => {
+const categories = (state = {categories:[]}, action) => {
   switch(action.type) {
     case 'GET_CATEGORIES':
       return {

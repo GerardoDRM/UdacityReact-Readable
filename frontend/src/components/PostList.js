@@ -5,9 +5,10 @@ function formatDate (date) {
 }
 
 export default function PostList({posts}) {
-  const p = posts !== undefined && posts[0] !== undefined
-    ? posts[0]
+  const p = posts !== undefined
+    ? posts
     : []
+
   return (<div>
     {
       p.map((item) => (<li key={item.id}>

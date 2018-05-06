@@ -22,6 +22,13 @@ export const getAllCategories= () =>  {
 export const getAllPosts= () =>  {
   return fetch(`${api}/posts`, { headers })
       .then((res) => res.json())
+      .then((r) => r)
+}
+
+// GET post
+export const getPost= (id) => {
+  return fetch(`${api}/posts/${id}`, { headers })
+      .then((res) => res.json())
 }
 
 // GET /category/posts
@@ -32,7 +39,7 @@ export const getAllPostsByCategory = (category) => {
 }
 
 // POST /posts
-export const addNewPost = (post) => {
+export const addPostAPI = (post) => {
   return fetch(`${api}/posts`, {
     method: 'POST',
     headers: {
@@ -45,7 +52,7 @@ export const addNewPost = (post) => {
 }
 
 // PUT /posts/:id
-export const editPost = (id, post) => {
+export const updatePostAPI = (id, post) => {
   return fetch(`${api}/posts/${id}`, {
     method: 'PUT',
     headers: {
@@ -80,7 +87,7 @@ export const votePost = (id, option) => {
 }
 
 // DELETE /posts/:id
-export const deletePost = (id) => {
+export const deletePostAPI = (id) => {
   return fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers
