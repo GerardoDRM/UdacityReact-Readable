@@ -8,10 +8,9 @@ import {
   updatePostAPI,
   votePost,
   getComments,
-  // editPost,
-  // addComment,
-  // deleteComment,
-  // editComment,
+  addCommentAPI,
+  deleteCommentAPI,
+  updateCommentAPI,
   // voteComment
 } from '../utils/api'
 
@@ -24,9 +23,9 @@ const UPDATE_POST = 'UPDATE_POST'
 const DELETE_POST = 'DELETE_POST'
 const UPDATE_VOTE_POST = 'UPDATE_VOTE_POST'
 // const CHANGE_SORT = 'CHANGE_SORT'
-// const ADD_COMMENT = 'ADD_COMMENT'
-// const DELETE_COMMENT = 'DELETE_COMMENT'
-// const EDIT_COMMENT = 'EDIT_COMMENT'
+const ADD_COMMENT = 'ADD_COMMENT'
+const DELETE_COMMENT = 'DELETE_COMMENT'
+const UPDATE_COMMENT = 'UPDATE_COMMENT'
 
 
 // Getting all categories
@@ -126,46 +125,47 @@ export const updateVotePost = (id, type) => dispatch => (
 //   }
 // }
 //
-// export const addCommentAction = (comment) => dispatch => {
-//   return addComment(comment)
-//     .then(comment => {
-//       dispatch({
-//         type: ADD_COMMENT,
-//         comment
-//       })
-//     })
-// }
-//
-// export const deleteCommentAction = (id) => dispatch => {
-//   return deleteComment(id)
-//     .then(() => {
-//       dispatch({
-//         type: DELETE_COMMENT,
-//         id
-//       })
-//     })
-// }
-//
-// export const editCommentAction = (id, comment) => dispatch => {
-//   return editComment(id, comment)
-//     .then((comment) => {
-//       dispatch({
-//         type: EDIT_COMMENT,
-//         id,
-//         comment
-//       })
-//     })
-// }
-//
-//
-// export const downVoteCommentAction = (id) => dispatch => (
-//   voteComment(id, "downVote")
-//     .then((comment) => {
-//       dispatch({
-//         type: DOWNVOTE_COMMENT,
-//         id: comment.id,
-//         parentId: comment.parentId,
-//         voteScore: comment.voteScore
-//       })
-//     })
-// )
+export const addComment= (comment) => dispatch => {
+  return addCommentAPI(comment)
+    .then(comment => {
+      dispatch({
+        type: ADD_COMMENT,
+        comment
+      })
+    })
+}
+
+export const deleteComment = (id) => dispatch => {
+  return deleteCommentAPI(id)
+    .then(() => {
+      dispatch({
+        type: DELETE_COMMENT,
+        id
+      })
+    })
+}
+
+export const updateComment = (id, comment) => dispatch => {
+  return updateCommentAPI(id, comment)
+    .then((comment) => {
+      dispatch({
+        type: UPDATE_COMMENT,
+        id,
+        comment
+      })
+    })
+}
+
+
+export const voteComment = (id) => dispatch => (
+  console.log("")
+  // voteComment(id, "downVote")
+  //   .then((comment) => {
+  //     dispatch({
+  //       type: DOWNVOTE_COMMENT,
+  //       id: comment.id,
+  //       parentId: comment.parentId,
+  //       voteScore: comment.voteScore
+  //     })
+  //   })
+)

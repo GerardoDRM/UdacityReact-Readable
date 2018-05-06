@@ -101,7 +101,7 @@ export const getComments = (id) => {
 }
 
 // POST /comments
-export const addComment = (comment) => {
+export const addCommentAPI = (comment) => {
   return fetch(`${api}/comments`, {
     method: 'POST',
     headers: {
@@ -114,7 +114,7 @@ export const addComment = (comment) => {
 }
 
 // DELETE /comments/:id
-export const deleteComment = (id) => {
+export const deleteCommentAPI = (id) => {
   return fetch(`${api}/comments/${id}`, {
     method: 'DELETE',
     headers
@@ -123,7 +123,7 @@ export const deleteComment = (id) => {
 }
 
 // PUT /comments/:id
-export const editComment = (id, comment) => {
+export const updateCommentAPI = (id, comment) => {
   return fetch(`${api}/comments/${id}`, {
     method: 'PUT',
     headers: {
