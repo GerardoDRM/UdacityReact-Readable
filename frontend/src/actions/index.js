@@ -11,7 +11,7 @@ import {
   addCommentAPI,
   deleteCommentAPI,
   updateCommentAPI,
-  // voteComment
+  voteCommentAPI
 } from '../utils/api'
 
 const GET_POSTS = 'GET_POSTS'
@@ -26,7 +26,7 @@ const UPDATE_VOTE_POST = 'UPDATE_VOTE_POST'
 const ADD_COMMENT = 'ADD_COMMENT'
 const DELETE_COMMENT = 'DELETE_COMMENT'
 const UPDATE_COMMENT = 'UPDATE_COMMENT'
-
+const UPDATE_VOTE_COMMENT = 'UPDATE_VOTE_COMMENT'
 
 // Getting all categories
 export const fetchCategories = () => dispatch => (
@@ -157,15 +157,14 @@ export const updateComment = (id, comment) => dispatch => {
 }
 
 
-export const voteComment = (id) => dispatch => (
-  console.log("")
-  // voteComment(id, "downVote")
-  //   .then((comment) => {
-  //     dispatch({
-  //       type: DOWNVOTE_COMMENT,
-  //       id: comment.id,
-  //       parentId: comment.parentId,
-  //       voteScore: comment.voteScore
-  //     })
-  //   })
+export const voteComment = (id, type) => dispatch => (
+  voteCommentAPI(id, type)
+    .then((comment) => {
+      dispatch({
+        type: UPDATE_VOTE_COMMENT,
+        id: comment.id,
+        parentId: comment.parentId,
+        voteScore: comment.voteScore
+      })
+    })
 )

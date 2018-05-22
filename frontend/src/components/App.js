@@ -15,7 +15,7 @@ class App extends Component {
   componentDidMount() {
     this.props.getCategories()
     this.props.getAllPostsByCategory("ALL")
-    this.props.getPostDetails("8xf0y6ziyjabvozdd253nd")
+    // this.props.getPostDetails("8xf0y6ziyjabvozdd253nd")
   }
 
   state = {
@@ -103,7 +103,14 @@ class App extends Component {
   deleteComment = () => {
     this.props.deletePost("894tuq4ut84ut8v4t8wun89g")
   }
-  updateVoteComment = () => {}
+  updateVoteComment = () => {
+    this.props.voteComment("8xf0y6ziyjabvozdd253nd", "upVote")
+  }
+
+  changeByCategory = (category) => {
+    console.log(category)
+    this.props.getAllPostsByCategory(category)
+  }
 
   render() {
     const {categories, posts} = this.props
@@ -115,11 +122,11 @@ class App extends Component {
       </header>
       <div className="container">
         {/* Categories */}
-        <CategoryList categories={categories}/> {/* Post */}
+        <CategoryList categories={categories} categoryUpdate={this.changeByCategory} /> {/* Post */}
         <PostList posts={posts}/>
         <div></div>
 
-        <button onClick={this.updateVote}>TEST</button>
+        <button onClick={this.updateVoteComment}>TEST</button>
       </div>
 
     </div>);

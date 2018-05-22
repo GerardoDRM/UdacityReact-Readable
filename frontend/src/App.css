@@ -71,6 +71,15 @@ li {
   z-index: 5;
 }
 
+.left-nav .category-nav {
+  width: 100%;
+  margin: 10px auto;
+  background: transparent;
+  border: 0;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 .card {
   margin: 25px auto;
   padding: 0 30px;

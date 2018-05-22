@@ -136,7 +136,7 @@ export const updateCommentAPI = (id, comment) => {
 }
 
 // POST /comments/:id
-export const voteComment = (id, option) => {
+export const voteCommentAPI = (id, option) => {
   return fetch(`${api}/comments/${id}`, {
     method: 'POST',
     headers: {
