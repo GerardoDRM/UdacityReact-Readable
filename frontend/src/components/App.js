@@ -77,8 +77,8 @@ class App extends Component {
     this.props.updatePost({"id": "8xf0y6ziyjabvozdd253nd", "author": "Lucas"})
   }
 
-  deletePost = () => {
-    this.props.deletePost("8xf0y6ziyjabvozdd253nd")
+  deletePost = (id) => {
+    this.props.deletePost(id)
   }
 
   updateVote = () => {
@@ -100,15 +100,14 @@ class App extends Component {
   updateComment = () => {
     this.props.updatePost({"id": "894tuq4ut84ut8v4t8wun89g", "body": "Lucas"})
   }
-  deleteComment = () => {
-    this.props.deletePost("894tuq4ut84ut8v4t8wun89g")
+  deleteComment = (id) => {
+    this.props.deletePost(id)
   }
   updateVoteComment = () => {
     this.props.voteComment("8xf0y6ziyjabvozdd253nd", "upVote")
   }
 
   changeByCategory = (category) => {
-    console.log(category)
     this.props.getAllPostsByCategory(category)
   }
 
@@ -123,7 +122,7 @@ class App extends Component {
       <div className="container">
         {/* Categories */}
         <CategoryList categories={categories} categoryUpdate={this.changeByCategory} /> {/* Post */}
-        <PostList posts={posts}/>
+        <PostList posts={posts} onDelete={this.deletePost}/>
         <div></div>
 
         <button onClick={this.updateVoteComment}>TEST</button>

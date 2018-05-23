@@ -4,7 +4,7 @@ function formatDate (date) {
   return Date(date)
 }
 
-export default function PostList({posts}) {
+export default function PostList({posts, onDelete}) {
   const p = posts !== undefined
     ? posts
     : []
@@ -19,6 +19,10 @@ export default function PostList({posts}) {
             <p>{formatDate(item.timestamp)}</p>
           </div>
           <p>{item.body}</p>
+          <div className="card-actions">
+            <div>More</div>
+            <div onClick={() => onDelete(item.id)}>Delete</div>
+          </div>
         </div>
       </li>))
     }
