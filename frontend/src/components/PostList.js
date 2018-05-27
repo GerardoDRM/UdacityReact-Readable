@@ -4,7 +4,7 @@ function formatDate (date) {
   return Date(date)
 }
 
-export default function PostList({posts, onDelete}) {
+export default function PostList({posts, onDelete, onUpdateVote}) {
   const p = posts !== undefined
     ? posts
     : []
@@ -17,6 +17,11 @@ export default function PostList({posts, onDelete}) {
           <div className="">
             <p>By: {item.author}</p>
             <p>{formatDate(item.timestamp)}</p>
+          </div>
+          <div className="thumbs">
+            <div className="thumbs-up" onClick={() => onUpdateVote(item.id, 'upVote')}></div>
+            <p>{item.voteScore}</p>
+            <div className="thumbs-down" onClick={() => onUpdateVote(item.id, 'downVote')}></div>
           </div>
           <p>{item.body}</p>
           <div className="card-actions">
