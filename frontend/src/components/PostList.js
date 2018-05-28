@@ -4,7 +4,7 @@ function formatDate (date) {
   return Date(date)
 }
 
-export default function PostList({posts, onDelete, onUpdateVote}) {
+export default function PostList({posts, onDelete, onUpdateVote, onPostDetail}) {
   const p = posts !== undefined
     ? posts
     : []
@@ -25,7 +25,7 @@ export default function PostList({posts, onDelete, onUpdateVote}) {
           </div>
           <p>{item.body}</p>
           <div className="card-actions">
-            <div>More</div>
+            <div onClick={() => onPostDetail(item.id)}>More</div>
             <div onClick={() => onDelete(item.id)}>Delete</div>
           </div>
         </div>

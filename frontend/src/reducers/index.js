@@ -45,15 +45,30 @@ function posts(state = {posts:[]}, action) {
         ...state,
         posts: action.posts
       }
-
-    default:
-
+    case 'UPDATE_VOTE_COMMENT':
+      const post = {...state.post, "comments": state.post.comments.map(c => {
+        if (c.id == action.id) {
+          c.voteScore = action.voteScore
+        }
+        return c
+      })}
+      return {
+        ...state,
+        post: post
+      }
   }
   return state
 }
 
 function comments(state = {}, action) {
-  return state
+  // switch (action.type) {
+  //   case 'UPDATE_VOTE_COMMENT':
+  //     console.log(state)
+  //     return []
+  //   default:
+  //     return state
+  //
+  // }
 }
 
 // For Categories

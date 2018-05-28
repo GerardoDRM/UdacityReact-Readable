@@ -3,25 +3,37 @@ import '../App.css';
 import {connect} from 'react-redux'
 import Loading from 'react-loading'
 import Modal from 'react-modal'
-import {Link} from 'react-router-dom'
 import {fetchCategories, fetchPostByCategory, fetchPost, addPost,
   updatePost, deletePost, updateVotePost, addComment, updateComment,
   deleteComment, voteComment} from '../actions'
 import PostList from './PostList'
 import CategoryList from './CategoryList'
+import serializeForm from 'form-serialize'
+import CreatePost from './CreatePost'
+import PostDetails from './PostDetails'
 
 class App extends Component {
 
   componentDidMount() {
     this.props.getCategories()
     this.props.getAllPostsByCategory("ALL")
-    this.props.getPostDetails("8xf0y6ziyjabvozdd253nd")
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.post) {
+      this.setState(() => ({
+        postModalOpen : true,
+        selectedPostComments: nextProps.post.comments
+      }))
+    }
   }
 
   state = {
     postModalOpen: false,
+    postModalCreate: false,
     commentModalOpen: false,
-    loadingPosts: false
+    loadingPosts: false,
+    selectedPostComments: []
   }
 
   guid = () => {
@@ -34,11 +46,22 @@ class App extends Component {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  openPostCreateModal = () => {
+    this.setState(() => ({
+      postModalCreate : true
+    }))
+  }
 
-  openPostModal = () => {
+  closePostCreateModal = () => {
     this.setState(() => {
-      postModalOpen : true
+      postModalCreate : false
     })
+  }
+
+
+  openPostModal = (id) => {
+    // Get post details
+    this.props.getPostDetails(id)
   }
 
   closePostModal = () => {
@@ -103,37 +126,75 @@ class App extends Component {
   deleteComment = (id) => {
     this.props.deletePost(id)
   }
-  updateVoteComment = () => {
-    this.props.voteComment("8xf0y6ziyjabvozdd253nd", "upVote")
+  updateVoteComment = (id, type) => {
+    this.props.voteComment(id, type)
   }
 
   changeByCategory = (category) => {
     this.props.getAllPostsByCategory(category)
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const values = serializeForm(e.target, { hash: true })
+    if (this.props.onCreateContact)
+      this.props.onCreateContact(values)
+  }
+
+
+
   render() {
     const {categories, posts} = this.props
+    const { postModalOpen, postModalCreate, selectedPostComments } = this.state
+
 
     return (<div className="App">
       <header className="App-header">
         <img src="" className="App-logo" alt="logo"/>
         <h1 className="App-title">Welcome to React</h1>
+        <div className="add-btn" onClick={() => this.openPostCreateModal()}></div>
       </header>
       <div className="container">
         {/* Categories */}
         <CategoryList categories={categories} categoryUpdate={this.changeByCategory} /> {/* Post */}
-        <PostList posts={posts} onDelete={this.deletePost} onUpdateVote={this.updateVote}/>
+        <PostList posts={posts} onDelete={this.deletePost} onUpdateVote={this.updateVote} onPostDetail={this.openPostModal}/>
         <div></div>
 
         <button onClick={this.updateVoteComment}>TEST</button>
       </div>
+
+
+      {/* Detail Post */}
+      <Modal
+          className='modal'
+          overlayClassName='overlay'
+          isOpen={postModalOpen}
+          onRequestClose={this.closePostModal}
+          contentLabel='Modal'
+        >
+        <PostDetails comments={selectedPostComments} onUpdateVote={this.updateVoteComment}/>
+        </Modal>
+
+
+      {/* Post Form */}
+      <Modal
+          className='modal'
+          overlayClassName='overlay'
+          isOpen={postModalCreate}
+          onRequestClose={this.closePostCreateModal}
+          contentLabel='Modal'
+        >
+        <CreatePost handleSubmit={this.handleSubmit}/>
+        </Modal>
+
+      {/* Comment Form */}
 
     </div>);
   }
 }
 
 function mapStateToProps({categories, posts, post}) {
-  return {categories: categories.categories, posts: posts.posts, post: post}
+  return {categories: categories.categories, posts: posts.posts, post: posts.post}
 }
 
 function mapDispatchToProps(dispatch) {
