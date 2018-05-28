@@ -56,6 +56,10 @@ function posts(state = {posts:[]}, action) {
         ...state,
         post: post
       }
+    case 'DELETE_COMMENT':
+      return {
+        post: {...state.post, "comments": state.post.comments.filter(c => c.id != action.id)}
+      }
   }
   return state
 }

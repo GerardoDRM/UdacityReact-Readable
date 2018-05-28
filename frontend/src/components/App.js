@@ -124,7 +124,7 @@ class App extends Component {
     this.props.updatePost({"id": "894tuq4ut84ut8v4t8wun89g", "body": "Lucas"})
   }
   deleteComment = (id) => {
-    this.props.deletePost(id)
+    this.props.deleteComment(id)
   }
   updateVoteComment = (id, type) => {
     this.props.voteComment(id, type)
@@ -172,7 +172,7 @@ class App extends Component {
           onRequestClose={this.closePostModal}
           contentLabel='Modal'
         >
-        <PostDetails comments={selectedPostComments} onUpdateVote={this.updateVoteComment}/>
+        <PostDetails comments={selectedPostComments} onUpdateVote={this.updateVoteComment} onDelete={this.deleteComment}/>
         </Modal>
 
 

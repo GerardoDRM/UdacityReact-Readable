@@ -14,7 +14,7 @@ function formatDate (date) {
   return Date(date)
 }
 
-export default function Comment({comment, onUpdateVote}) {
+export default function Comment({comment, onUpdateVote, onDelete}) {
   const commentId = comment.id
 
   return (<div>
@@ -29,6 +29,7 @@ export default function Comment({comment, onUpdateVote}) {
     </div>
     <p>{comment.body}</p>
     <div className="card-actions">
+      <div onClick={() => onDelete(comment.id)}>Delete</div>
     </div>
 
   </div>)
