@@ -5,7 +5,7 @@ import Loading from 'react-loading'
 import Modal from 'react-modal'
 import {fetchCategories, fetchPostByCategory, fetchPost, addPost,
   updatePost, deletePost, updateVotePost, addComment, updateComment,
-  deleteComment, voteComment} from '../actions'
+  deleteComment, voteComment, changeSortAction} from '../actions'
 import PostList from './PostList'
 import CategoryList from './CategoryList'
 import serializeForm from 'form-serialize'
@@ -33,7 +33,8 @@ class App extends Component {
     postModalCreate: false,
     commentModalOpen: false,
     loadingPosts: false,
-    selectedPostComments: []
+    selectedPostComments: [],
+    sortValue: 'popular'
   }
 
   guid = () => {
@@ -44,6 +45,10 @@ class App extends Component {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
+  }
+
+  sortPost = (e) => {
+    this.setState({sortValue: e.target.value}, this.props.changeSort(this.state.sortValue));
   }
 
   openPostCreateModal = () => {
@@ -141,8 +146,6 @@ class App extends Component {
       this.props.onCreateContact(values)
   }
 
-
-
   render() {
     const {categories, posts} = this.props
     const { postModalOpen, postModalCreate, selectedPostComments } = this.state
@@ -155,6 +158,10 @@ class App extends Component {
         <div className="add-btn" onClick={() => this.openPostCreateModal()}></div>
       </header>
       <div className="container">
+        <select id="lang" onChange={this.sortPost} value={this.state.sortValue}>
+          <option value="popular">Popular</option>
+          <option value="time">Time</option>
+        </select>
         {/* Categories */}
         <CategoryList categories={categories} categoryUpdate={this.changeByCategory} /> {/* Post */}
         <PostList posts={posts} onDelete={this.deletePost} onUpdateVote={this.updateVote} onPostDetail={this.openPostModal}/>
@@ -209,7 +216,8 @@ function mapDispatchToProps(dispatch) {
     addComment: (id, comment) => dispatch(addComment(id, comment)),
     updateComment: (comment) => dispatch(updateComment(comment)),
     deleteComment: (id) => dispatch(deleteComment(id)),
-    voteComment: (id, type) => dispatch(voteComment(id, type))
+    voteComment: (id, type) => dispatch(voteComment(id, type)),
+    changeSort: (type) => dispatch(changeSortAction(type))
   }
 }
 

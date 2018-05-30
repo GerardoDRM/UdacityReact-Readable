@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 
-function posts(state = {posts:[]}, action) {
+function posts(state = {posts:[], sort: 'popular'}, action) {
   switch (action.type) {
     case 'GET_POST':
         return {
@@ -58,8 +58,22 @@ function posts(state = {posts:[]}, action) {
       }
     case 'DELETE_COMMENT':
       return {
+        ...state,
         post: {...state.post, "comments": state.post.comments.filter(c => c.id != action.id)}
       }
+    case 'CHANGE_SORT':
+      if (action.value == 'popular') {
+        return {
+          ...state,
+          posts: [...state.post.sort((a, b) => a['voteScore'] - b['voteScore'])]
+        }
+      } else if (action.value == 'time') {
+        return {
+          ...state,
+          posts: [...state.post.sort((a, b) => a['timestamp'] - b['timestamp'])]
+        }
+      }
+      return state
   }
   return state
 }
@@ -88,21 +102,7 @@ const categories = (state = {categories:[]}, action) => {
   }
 }
 
-const sort = (state = { sort: 'popular' }, action) => {
-  switch(action.type) {
-    case 'CHANGE_SORT':
-      const newValue = action.value
-      return {
-        ...state,
-        sort: newValue
-      }
-    default:
-      return state
-  }
-}
-
 export default combineReducers({
   posts,
-  categories,
-  sort
+  categories
 })

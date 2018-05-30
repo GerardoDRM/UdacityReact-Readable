@@ -22,7 +22,7 @@ const ADD_POST = 'ADD_POST'
 const UPDATE_POST = 'UPDATE_POST'
 const DELETE_POST = 'DELETE_POST'
 const UPDATE_VOTE_POST = 'UPDATE_VOTE_POST'
-// const CHANGE_SORT = 'CHANGE_SORT'
+const CHANGE_SORT = 'CHANGE_SORT'
 const ADD_COMMENT = 'ADD_COMMENT'
 const DELETE_COMMENT = 'DELETE_COMMENT'
 const UPDATE_COMMENT = 'UPDATE_COMMENT'
@@ -118,13 +118,13 @@ export const updateVotePost = (id, type) => dispatch => (
     })
 )
 
-// export const changeSortAction = (value) => {
-//   return {
-//     type: CHANGE_SORT,
-//     value: value
-//   }
-// }
-//
+export const changeSortAction = (value) => {
+  return {
+    type: CHANGE_SORT,
+    value: value
+  }
+}
+
 export const addComment= (comment) => dispatch => {
   return addCommentAPI(comment)
     .then(comment => {
