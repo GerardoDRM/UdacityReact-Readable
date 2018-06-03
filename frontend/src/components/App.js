@@ -11,6 +11,7 @@ import CategoryList from './CategoryList'
 import serializeForm from 'form-serialize'
 import CreatePost from './CreatePost'
 import PostDetails from './PostDetails'
+import moment from 'moment'
 
 class App extends Component {
 
@@ -48,7 +49,8 @@ class App extends Component {
   }
 
   sortPost = (e) => {
-    this.setState({sortValue: e.target.value}, this.props.changeSort(this.state.sortValue));
+    this.setState({sortValue: e.target.value})
+    this.props.changeSort(e.target.value)
   }
 
   openPostCreateModal = () => {
@@ -87,18 +89,15 @@ class App extends Component {
     })
   }
 
-  createPost = () => {
-    this.props.addPost({
+  createPost = (e) => {
+    e.preventDefault()
+    const values = serializeForm(e.target, { hash: true })
+    const newPost = {
       "id": this.guid(),
-      "timestamp": 1468479767190,
-      "title": "Learn Redux in 100 minutes!",
-      "body": "Just kidding. It takes more than 10 minutes to learn technology.",
-      "author": "thingone",
-      "category": "redux",
-      "voteScore": 0,
-      "deleted": false,
-      "commentCount": 0
-    })
+      "timestamp": moment().valueOf(),
+      ...values
+    }
+    this.props.addPost(newPost)
   }
 
   updatePost = () => {
@@ -191,7 +190,7 @@ class App extends Component {
           onRequestClose={this.closePostCreateModal}
           contentLabel='Modal'
         >
-        <CreatePost handleSubmit={this.handleSubmit}/>
+        <CreatePost handleSubmit={this.createPost}/>
         </Modal>
 
       {/* Comment Form */}

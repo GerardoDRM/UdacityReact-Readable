@@ -1,7 +1,7 @@
 import React from 'react'
-
+import moment from 'moment'
 function formatDate (date) {
-  return Date(date)
+  return moment(date).format("MM/DD/YYYY")
 }
 
 export default function PostList({posts, onDelete, onUpdateVote, onPostDetail}) {

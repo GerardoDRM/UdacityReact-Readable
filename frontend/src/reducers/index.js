@@ -25,7 +25,7 @@ function posts(state = {posts:[], sort: 'popular'}, action) {
       let updatedPost = action.post
       return {
         posts: [...state.posts.map(p => {
-          if (p.id == updatedPost.id) {
+          if (p.id === updatedPost.id) {
             return updatedPost
           }
           return p
@@ -34,7 +34,7 @@ function posts(state = {posts:[], sort: 'popular'}, action) {
     case 'UPDATE_VOTE_POST':
       return {
         posts: [...state.posts.map(p => {
-          if (p.id == action.postId) {
+          if (p.id === action.postId) {
             p.voteScore = action.voteScore
           }
           return p
@@ -47,7 +47,7 @@ function posts(state = {posts:[], sort: 'popular'}, action) {
       }
     case 'UPDATE_VOTE_COMMENT':
       const post = {...state.post, "comments": state.post.comments.map(c => {
-        if (c.id == action.id) {
+        if (c.id === action.id) {
           c.voteScore = action.voteScore
         }
         return c
@@ -62,15 +62,15 @@ function posts(state = {posts:[], sort: 'popular'}, action) {
         post: {...state.post, "comments": state.post.comments.filter(c => c.id != action.id)}
       }
     case 'CHANGE_SORT':
-      if (action.value == 'popular') {
+      if (action.value === 'popular') {
         return {
           ...state,
-          posts: [...state.post.sort((a, b) => a['voteScore'] - b['voteScore'])]
+          posts: [...state.posts.sort((a, b) => b['voteScore'] - a['voteScore'])]
         }
-      } else if (action.value == 'time') {
+      } else if (action.value === 'time') {
         return {
           ...state,
-          posts: [...state.post.sort((a, b) => a['timestamp'] - b['timestamp'])]
+          posts: [...state.posts.sort((a, b) => a['timestamp'] - b['timestamp'])]
         }
       }
       return state
